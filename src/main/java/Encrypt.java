@@ -26,56 +26,34 @@ public class Encrypt {
     /** Modulo to use for our transformation. */
     public static final int TRANSFORM_MODULUS = TRANSFORM_END - TRANSFORM_START + 1;
 
-    /**
-     * Encrypt a single line of text using a rotate-N transformation.
-     * <p>
-     * The printable range of ASCII characters starts at decimal value 32 (' ') and ends at 126
-     * ('~'). You should shift characters within this range by the shift value provided. For
-     * example, ' ' (32) shift 1 becomes '!' (33), while '~' (126) shift 1 wraps around and becomes
-     * ' ' (32). You may want to explore modular arithmetic to simplify the transformation.
-     * <p>
-     * Your function should return a new character array, not modify the one that it is passed.
-     * <p>
-     * Both encrypter and decrypter may receive invalid inputs. If the character array contains invalid
-     * characters (outside of the range defined above), or if the shift value is outside the range
-     * defined above (e.g., larger than MAX_SHIFT), you should return null.
-     * <p>
-     * <strong>Your solution must match the expected output exactly, otherwise you will not receive
-     * credit.</strong>
-     * <p>
-     * Complete the Javadoc comment for this function and write it.
-     *
-     * @see <a href="http://www.asciitable.com/">ASCII Character Table</a>
-     */
 
     /**
-     * Encrypts an array.
+     ** Encrypts an array.
      * @param line is the array that is being encrypted.
      * @param shift is the amount of shift that the array undergoes.
      * @return encrypted array.
      */
     public static char[] encrypter(final char[] line, final int shift) {
 
-        char[] encrypt = new char[line.length];
+        char[] enc = new char[line.length];
+
+        if (shift < MIN_SHIFT || shift > MAX_SHIFT) {
+            return null;
+        }
         for (int i = 0; i < line.length; i++) {
             if (line[i] < TRANSFORM_START || line[i] > TRANSFORM_END) {
                 return null;
             }
-        }
-
-        if (shift < MIN_SHIFT || shift > MAX_SHIFT)
-            return null;
-
-        for (int i = 0; i < line.length; i++) {
-
-            if (shift + (int) line[i] > TRANSFORM_END) {
-                encrypt[i] = (char) (TRANSFORM_START + ((shift + (int) line[i]) % TRANSFORM_MODULUS));
+            if ((shift + (int) line[i]) > TRANSFORM_END) {
+                enc[i] = (char) (TRANSFORM_START + ((shift + (int) line[i] - TRANSFORM_START) % TRANSFORM_MODULUS));
+            } else if ((shift + (int) line[i]) < TRANSFORM_START) {
+                enc[i] = (char) (TRANSFORM_END - Math.abs(shift + (int) line[i] - TRANSFORM_END) % TRANSFORM_MODULUS);
             } else {
-                encrypt[i] = (char) ((shift + (int) line[i]));
+               enc[i] = (char) ((shift + (int) line[i]));
 
             }
         }
-        return encrypt;
+        return enc;
     }
 
     /**
@@ -89,26 +67,26 @@ public class Encrypt {
      * @see <a href="http://www.asciitable.com/">ASCII Character Table</a>
      */
     public static char[] decrypter(final char[] line, final int shift) {
-        char[] encrypt = new char[line.length];
+        char[] enc = new char[line.length];
+
+        if (shift < MIN_SHIFT || shift > MAX_SHIFT) {
+            return null;
+        }
+
         for (int i = 0; i < line.length; i++) {
             if (line[i] < TRANSFORM_START || line[i] > TRANSFORM_END) {
                 return null;
             }
-        }
-
-        if (shift < MIN_SHIFT || shift > MAX_SHIFT)
-            return null;
-
-        for (int i = 0; i < line.length; i++) {
-
             if (((int) line[i] - shift) < TRANSFORM_START) {
-                encrypt[i] = (char) (TRANSFORM_END - (((int) line[i]- shift) % TRANSFORM_MODULUS));
+                enc[i] = (char) (TRANSFORM_END - Math.abs(-shift + (int) line[i] - TRANSFORM_END) % TRANSFORM_MODULUS);
+            } else if ((-shift + (int) line[i]) > TRANSFORM_END) {
+                enc[i] = (char) (TRANSFORM_START + ((-shift + (int) line[i] - TRANSFORM_START) % TRANSFORM_MODULUS));
             } else {
-                encrypt[i] = (char) (((int) line[i]) - shift);
+                enc[i] = (char) ((-shift + (int) line[i]));
 
             }
         }
-        return encrypt;
+        return enc;
     }
 
     /* ********************************************************************************************
