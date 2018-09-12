@@ -35,8 +35,10 @@ public class Encrypt {
      */
     public static char[] encrypter(final char[] line, final int shift) {
 
+        if (line == null) {
+            return null;
+        }
         char[] enc = new char[line.length];
-
         if (shift < MIN_SHIFT || shift > MAX_SHIFT) {
             return null;
         }
@@ -67,6 +69,9 @@ public class Encrypt {
      * @see <a href="http://www.asciitable.com/">ASCII Character Table</a>
      */
     public static char[] decrypter(final char[] line, final int shift) {
+        if (line == null) {
+            return null;
+        }
         char[] enc = new char[line.length];
 
         if (shift < MIN_SHIFT || shift > MAX_SHIFT) {
