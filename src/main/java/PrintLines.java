@@ -55,7 +55,7 @@ public class PrintLines {
      *
      */
     public static void linePrinter(final String actress, final String[] scriptLines) {
-        return 0.0;
+        ;
     }
 
     /* ********************************************************************************************

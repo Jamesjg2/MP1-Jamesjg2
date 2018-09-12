@@ -67,8 +67,15 @@ public class Encrypt {
             return null;
 
         for (int i = 0; i < line.length; i++) {
-            encrypt[i] = 
+
+            if (shift + (int) line[i] > TRANSFORM_END) {
+                encrypt[i] = (char) (TRANSFORM_START + ((shift + (int) line[i]) % TRANSFORM_MODULUS));
+            } else {
+                encrypt[i] = (char) ((shift + (int) line[i]));
+
+            }
         }
+        return encrypt;
     }
 
     /**
@@ -82,7 +89,26 @@ public class Encrypt {
      * @see <a href="http://www.asciitable.com/">ASCII Character Table</a>
      */
     public static char[] decrypter(final char[] line, final int shift) {
-        return 0;
+        char[] encrypt = new char[line.length];
+        for (int i = 0; i < line.length; i++) {
+            if (line[i] < TRANSFORM_START || line[i] > TRANSFORM_END) {
+                return null;
+            }
+        }
+
+        if (shift < MIN_SHIFT || shift > MAX_SHIFT)
+            return null;
+
+        for (int i = 0; i < line.length; i++) {
+
+            if (((int) line[i] - shift) < TRANSFORM_START) {
+                encrypt[i] = (char) (TRANSFORM_END - (((int) line[i]- shift) % TRANSFORM_MODULUS));
+            } else {
+                encrypt[i] = (char) (((int) line[i]) - shift);
+
+            }
+        }
+        return encrypt;
     }
 
     /* ********************************************************************************************
