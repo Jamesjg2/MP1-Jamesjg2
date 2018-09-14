@@ -54,9 +54,38 @@ public class PrintLines {
      * Complete the Javadoc comment and write this function.
      *
      */
+    /**
+     *
+     * @param actress search for actress name.
+     * @param scriptLines look through scriptLines array.
+     */
     public static void linePrinter(final String actress, final String[] scriptLines) {
-        ;
-    }
+        int len = scriptLines.length;
+        boolean exist = false;
+        for (int i = 0; i < len; i++) {
+            if (scriptLines[i].equals(actress.toUpperCase())) {
+                exist = true;
+            }
+        }
+
+        if (exist) {
+            System.out.println(actress.toLowerCase());
+            System.out.println("---");
+            for (int i = 0; i < len; i++) {
+                if (scriptLines[i].equals(actress.toUpperCase())) {
+                    for (int j = i; j < len; j++) {
+                        if (scriptLines[j].equals("")) {
+                            break;
+                        } else {
+                            System.out.println(scriptLines[j]);
+                        }
+                        System.out.println("---");
+                    }
+                }
+            }
+        }
+        }
+
 
     /* ********************************************************************************************
      * You do not need to modify code below this comment.
