@@ -73,17 +73,20 @@ public class PrintLines {
             System.out.println("---");
             for (int i = 0; i < len; i++) {
                 if (scriptLines[i].equals(actress.toUpperCase())) {
-                    for (int j = i; j < len; j++) {
+                    for (int j = i + 1; j < len; j++) {
                         if (scriptLines[j].equals("")) {
                             break;
                         } else {
                             System.out.println(scriptLines[j]);
                         }
-                        System.out.println("---");
                     }
+                    System.out.println("---");
                 }
             }
         }
+       /* for(String i:scriptLines){
+            System.out.println(i);
+        }*/
         }
 
 
